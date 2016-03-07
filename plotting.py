@@ -22,6 +22,7 @@ def plot_surf_stat_map(coords, faces, stat_map=None,
     import numpy as np
     import matplotlib.pyplot as plt
     import matplotlib.tri as tri
+    import matplotlib as mpl
     from mpl_toolkits.mplot3d import Axes3D
     import seaborn as sns
 
@@ -149,6 +150,12 @@ def plot_surf_stat_map(coords, faces, stat_map=None,
                             face_colors[n_face,0:3] = cpal[n_label]
 
         p3dcollec.set_facecolors(face_colors)
+
+        print "XXX: vmin=%f vmax=%f" % (vmin, vmax)
+        cax = fig.add_axes([0.80, 0.2, 0.02, 0.6])
+        norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+        cb = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm)
+        cb.set_label("Pipi's performance")
 
     return fig
 
