@@ -47,6 +47,7 @@ def plot_surf_stat_map(coords, faces, stat_map=None,
     else:
         fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d', xlim=limits, ylim=limits)
+        
     ax.view_init(elev=elev, azim=azim)
     ax.set_axis_off()
 
@@ -78,6 +79,7 @@ def plot_surf_stat_map(coords, faces, stat_map=None,
             if bg_data.shape[0] != coords.shape[0]:
                 raise ValueError('The bg_map does not have the same number '
                                  'of vertices as the mesh.')
+                                 
             bg_faces = np.mean(bg_data[faces], axis=1)
             bg_faces = bg_faces - bg_faces.min()
             bg_faces = bg_faces / bg_faces.max()
@@ -151,11 +153,17 @@ def plot_surf_stat_map(coords, faces, stat_map=None,
 
         p3dcollec.set_facecolors(face_colors)
 
-        print "XXX: vmin=%f vmax=%f" % (vmin, vmax)
-        cax = fig.add_axes([0.80, 0.2, 0.02, 0.6])
+        # left, bottom, width, height
+        l, b, w, h = ax.get_position().bounds   
+
+        cax = fig.add_axes([l*1.2, b*2, w*0.04, h*0.8])
         norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
-        cb = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm)
-        cb.set_label("Pipi's performance")
+        cb = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm,
+                                       spacing='proportional')
+        # how many values you want to have on colorbar
+        step = (vmax - vmin)/5      
+        labels = np.arange(vmin, vmax+step, step )        
+        cb.set_ticks(labels)        
 
     return fig
 
