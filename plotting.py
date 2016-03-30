@@ -6,7 +6,7 @@ https://github.com/juhuntenburg/nilearn/tree/enh/surface_plotting
 Helper function for symmetric colormap is copied from nilearn.
 '''
 
-def plot_surf_stat_map(coords, faces, stat_map=None,
+def plot_surf_stat_map(coords, faces, F, abc, stat_map=None,
                        elev=0, azim=0,
                        cmap='coolwarm',
                        threshold=None, bg_map=None,
@@ -43,10 +43,10 @@ def plot_surf_stat_map(coords, faces, stat_map=None,
 
     # initiate figure and 3d axes
     if figsize is not None:
-        fig = plt.figure(figsize=figsize)
+        fig = plt.figure(F, figsize=figsize)
     else:
-        fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d', xlim=limits, ylim=limits)
+        fig = plt.figure(F)
+    ax = fig.add_subplot(abc, projection='3d', xlim=limits, ylim=limits)
         
     ax.view_init(elev=elev, azim=azim)
     ax.set_axis_off()
