@@ -102,7 +102,7 @@ def plot_surf_stat_map(coords, faces, F, abc, stat_map=None,
             vmin = stat_map.min()
             vmax = stat_map.max()
             if threshold is not None:
-                kept_indices = np.where(abs(stat_map_faces) >= threshold)[0]
+                kept_indices = np.where(abs(stat_map_faces) <= threshold)[0]
                 stat_map_faces = stat_map_faces - vmin
                 stat_map_faces = stat_map_faces / (vmax-vmin)
                 if bg_on_stat:
