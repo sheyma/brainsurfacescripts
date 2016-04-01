@@ -98,7 +98,9 @@ def plot_surf_stat_map(coords, faces, F, abc, stat_map=None,
             cbar_vmin, cbar_vmax, vmin, vmax = \
                 _get_plot_stat_map_params(stat_map_faces, vmax,
                                           symmetric_cbar, kwargs)
-
+            # IF COLORBAR NOT SYMMETRIC, SET vmin vmax manually...                              
+            vmin = stat_map.min()
+            vmax = stat_map.max()
             if threshold is not None:
                 kept_indices = np.where(abs(stat_map_faces) >= threshold)[0]
                 stat_map_faces = stat_map_faces - vmin
@@ -156,8 +158,12 @@ def plot_surf_stat_map(coords, faces, F, abc, stat_map=None,
         # left, bottom, width, height
         l, b, w, h = ax.get_position().bounds   
 
-        cax = fig.add_axes([l*1.2, b*2, w*0.04, h*0.8])
+
+        cax = fig.add_axes([l + 0.01, b + b*0.1, w*int(abc[1])*0.03, h*0.8])
+        print "vmin", vmin
+        print "vmax", vmax
         norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+        
         cb = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm,
                                        spacing='proportional')
         # how many values you want to have on colorbar
